@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
+    <Timestamp>$([System.DateTime]::Now.ToString("yyyyMMdd-HHmm"))</Timestamp>
+    <Version>0.0.1-beta$(Timestamp)</Version>
+    <RootNamespace>DxLibs.Framework.Web</RootNamespace>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Company>Dx Libs</Company>
+    <Authors>Dx Team</Authors>
+    <Product>Web framework</Product>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+
+    <DependencyInjection>MS</DependencyInjection>
+    <!--<DependencyInjection>AUTOFAC</DependencyInjection>-->
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(DependencyInjection)' == 'AUTOFAC' ">
+    <DefineConstants>$(DefineConstants);AUTOFAC</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(DependencyInjection)' != 'AUTOFAC' ">
+    <DefineConstants>$(DefineConstants);MS_DI</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
+    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+    <BuildFor>NETCORE</BuildFor>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <DefineConstants>$(DefineConstants);FW</DefineConstants>
+    <BuildFor>FW</BuildFor>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DxLibs.Web" Version="0.0.1-beta20180402-0316" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(DependencyInjection)' == 'AUTOFAC' ">
+    <PackageReference Include="DxLibs.Extensions.Web.DependencyInjection.Autofac" Version="0.0.1-beta20180402-0332" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(DependencyInjection)' == 'MS' ">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+  </ItemGroup>
+  
+</Project>
